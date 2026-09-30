@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desi Bazaar</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+Telugu&family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff7e8;--card:#fffdf7;--tx:#2a1810;--mute:#7d6450;--bd:#f0d9b5;--ac:#e8590c;--ac2:#b0134a;--ok:#138808;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1110;--card:#2a1a17;--tx:#fbeedd;--mute:#c4a48a;--bd:#4a2f28}}
+:root[data-theme="dark"]{--bg:#1c1110;--card:#2a1a17;--tx:#fbeedd;--mute:#c4a48a;--bd:#4a2f28}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Noto Sans Telugu","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:10px;padding:8px 12px}
+button.p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;font-weight:600}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:9px 12px;width:100%}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;gap:10px;align-items:center;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.logo{font:800 26px "Baloo 2",system-ui;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer}
+.sb{position:relative;flex:1;min-width:180px}
+.sug{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px #0003}
+.sug div{padding:8px 12px;cursor:pointer}.sug div:hover,.sug .on{background:var(--bd)}
+.badge{background:var(--ac2);color:#fff;border-radius:99px;padding:0 7px;font-size:12px;margin-left:4px}
+main{max-width:1200px;margin:0 auto;padding:16px}
+.lay{display:grid;grid-template-columns:230px 1fr;gap:18px}
+@media(max-width:760px){.lay{grid-template-columns:1fr}}
+aside{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;align-self:start}
+aside h4{margin:12px 0 6px}.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:4px 10px;border-radius:99px;font-size:13px}.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;opacity:0;transform:translateY(14px);transition:.5s;position:relative}
+.card.in{opacity:1;transform:none}.card:hover{box-shadow:0 10px 28px #0002;translate:0 -3px}
+.img{height:150px;display:grid;place-items:center;font-size:64px;cursor:pointer}
+.cb{padding:12px}.cb h3{font-size:15px;margin:0 0 2px}.m{color:var(--mute);font-size:13px}
+.pr{font-weight:700;font-size:17px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ic{position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:6px}
+.ic button{padding:4px 8px;border-radius:99px;background:#fffc;color:#222}.ic .on{background:var(--ac2);color:#fff}
+.ov{position:fixed;inset:0;background:#0007;z-index:40;display:flex;justify-content:flex-end}
+.ov.c{justify-content:center;align-items:center;padding:14px}
+.dr{width:min(400px,100%);background:var(--bg);padding:16px;overflow:auto;height:100%}
+.md{background:var(--bg);border-radius:18px;max-width:720px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+.gal{display:flex;gap:8px;margin:10px 0}.gal div{flex:1;height:70px;border-radius:12px;display:grid;place-items:center;font-size:30px;cursor:pointer;border:2px solid transparent}.gal .on{border-color:var(--ac)}
+.big{height:220px;border-radius:16px;display:grid;place-items:center;font-size:110px;transition:.3s}
+.ci{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}
+.qty{display:flex;align-items:center;gap:6px}.qty button{padding:2px 9px}
+.ring{--p:0;width:74px;height:74px;border-radius:50%;background:conic-gradient(var(--c,var(--ok)) calc(var(--p)*1%),var(--bd) 0);display:grid;place-items:center}
+.ring i{width:56px;height:56px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font:600 12px system-ui}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.err{color:#e5484d;font-size:12px}.f{margin-bottom:10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:99px;z-index:99}
+.cmp{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;align-items:center;z-index:30}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid var(--bd);text-align:left}
+.star{color:#f5a623}
+.toran{height:12px;background:linear-gradient(135deg,var(--ac) 25%,transparent 25%) -10px 0/20px 12px,linear-gradient(225deg,var(--ac2) 25%,transparent 25%) -10px 0/20px 12px}
+.ban{background:linear-gradient(90deg,#b0134a,#e8590c,#f6b800);color:#fff;text-align:center;padding:8px;font-weight:600;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.ban button{padding:3px 10px;background:#fff;color:#b0134a;border:0}
+header select{width:auto}
+</style></head><body>
+<div id="app">
+<header>
+  <span class="logo" @click="go('/')">🪔 {{t('brand')}}</span>
+  <div class="sb">
+    <input v-model="q" :placeholder="t('search')" @keydown.down.prevent="hi=Math.min(hi+1,sugs.length-1)" @keydown.up.prevent="hi=Math.max(hi-1,0)" @keydown.enter="pick(sugs[hi])" @focus="sf=true" @blur="setTimeout(()=>sf=false,150)">
+    <div class="sug" v-if="sf&&sugs.length&&q"><div v-for="(s,i) in sugs" :class="{on:i===hi}" @mousedown.prevent="pick(s)">{{s.emoji}} {{s.name}} <span class="m">· {{s.cat}}</span></div></div>
+  </div>
+  <button @click="wonly=!wonly;go('/')" :class="{on:wonly}">♥<span class="badge">{{wish.length}}</span></button>
+  <button @click="cartOpen=true">🛒<span class="badge">{{count}}</span></button>
+  <button v-if="!user" class="p" @click="go('/login')">{{t('signin')}}</button>
+  <button v-else @click="go('/account')">👤 {{user.name}}</button>
+  <select v-model="lang"><option value="en">EN</option><option value="hi">हिं</option><option value="te">తె</option></select><button @click="toggleTheme">◐</button>
+</header>
+<div class="toran"></div>
+<div class="ban">🎆 {{t('sale')}} <b>{{cd}}</b> <button @click="spin">🪔 {{t('spin')}}</button></div>
+<main>
+<!-- SHOP -->
+<div v-if="route==='/'" class="lay">
+  <aside>
+    <h4 style="margin-top:0">{{t('cat')}}</h4>
+    <div class="chips"><button v-for="c in cats" class="chip" :class="{on:cat===c}" @click="cat=c">{{c}}</button></div>
+    <h4>{{t('maxp')}}: {{inr(maxP)}}</h4><input type="range" min="200" max="10000" step="200" v-model.number="maxP">
+    <h4>Min rating: {{minR}}★</h4><input type="range" min="0" max="5" step="0.5" v-model.number="minR">
+    <h4>Sort</h4>
+    <select v-model="sort"><option value="pop">Popularity</option><option value="pa">Price ↑</option><option value="pd">Price ↓</option><option value="name">Name A–Z</option><option value="rate">Top rated</option></select>
+    <h4>✨ {{t('vibe')}}</h4><div class="chips"><button v-for="v in vibes" class="chip" :class="{on:vibe===v}" @click="vibe=vibe===v?'':v">{{v}}</button></div>
+  </aside>
+  <section>
+    <p class="m">{{list.length}} products<span v-if="wonly"> · wishlist only</span></p>
+    <div class="grid">
+      <div v-for="p in list" :key="p.id" class="card" v-lazy>
+        <div class="img" :style="{background:bg(p)}" @click="open(p)">{{p.emoji}}</div>
+        <div class="ic"><button :class="{on:wish.includes(p.id)}" @click="tog(wish,p.id)">♥</button><button :class="{on:cmp.includes(p.id)}" @click="togCmp(p.id)">⇄</button></div>
+        <div class="cb"><h3>{{p.name}}</h3><div class="m"><span class="star">★</span> {{rating(p).toFixed(1)}} · {{reviews[p.id].length}} reviews</div><div class="m">📍 {{p.o}} · {{p.cr}}</div>
+          <div class="row" style="margin-top:8px"><span class="pr">{{inr(p.price)}}</span><button class="p" @click="add(p.id)">{{t('add')}}</button></div></div>
+      </div>
+    </div>
+    <p v-if="!list.length" class="m">No matches — loosen the filters.</p>
+  </section>
+</div>
+<!-- LOGIN -->
+<div v-else-if="route==='/login'" class="box" style="max-width:380px;margin:30px auto">
+  <h2>Welcome back</h2><p class="m">Simulated auth: any email + 6+ char password.</p>
+  <div class="f"><input v-model="lf.name" placeholder="Name"></div>
+  <div class="f"><input v-model="lf.email" placeholder="Email"><div class="err">{{le.email}}</div></div>
+  <div class="f"><input type="password" v-model="lf.pw" placeholder="Password"><div class="err">{{le.pw}}</div></div>
+  <button class="p" style="width:100%" @click="login">Sign in</button>
+</div>
+<!-- ACCOUNT (protected) -->
+<div v-else-if="route==='/account'">
+  <h2>Hi {{user.name}} 👋</h2>
+  <div class="box"><b>Orders</b><p v-if="!orders.length" class="m">No orders yet.</p>
+    <div v-for="o in orders" class="ci"><span>#{{o.id}}</span><span class="m" style="flex:1">{{o.date}} · {{o.items}} items</span><b>{{inr(o.total)}}</b></div></div>
+  <button @click="logout">Sign out</button>
+</div>
+<!-- CHECKOUT (protected) -->
+<div v-else-if="route==='/checkout'" class="lay" style="grid-template-columns:1fr 300px">
+  <div>
+    <h2>Checkout</h2>
+    <div v-if="done" class="box"><h3>🎉 Order #{{done}} placed!</h3><p class="m">Thanks, {{user.name}}. This is a simulation — nothing was charged.</p><button class="p" @click="done=0;go('/')">Keep shopping</button></div>
+    <div v-else class="box">
+      <div class="f"><input v-model="ck.name" placeholder="Full name"><div class="err">{{ce.name}}</div></div>
+      <div class="f"><input v-model="ck.addr" placeholder="Shipping address"><div class="err">{{ce.addr}}</div></div>
+      <div class="f"><input v-model="ck.pin" placeholder="Pincode" maxlength="6" inputmode="numeric"><div class="err">{{ce.pin}}</div></div>
+      <div class="chips f"><button v-for="m in [['upi','📱 UPI'],['card','💳 Card'],['cod','💵 Cash on Delivery']]" class="chip" :class="{on:pay===m[0]}" @click="pay=m[0]">{{m[1]}}</button></div>
+      <div class="f" v-if="pay==='upi'"><input v-model="ck.upi" placeholder="yourname@okbank"><div class="err">{{ce.upi}}</div></div>
+      <template v-if="pay==='card'"><div class="f"><input v-model="ck.card" placeholder="Card number (16 digits)" inputmode="numeric" maxlength="19"><div class="err">{{ce.card}}</div></div>
+      <div class="row"><div class="f" style="flex:1"><input v-model="ck.exp" placeholder="MM/YY"><div class="err">{{ce.exp}}</div></div><div class="f" style="flex:1"><input v-model="ck.cvv" placeholder="CVV" maxlength="4"><div class="err">{{ce.cvv}}</div></div></div></template>
+      <p class="m" v-if="pay==='cod'">₹40 handling fee applies.</p>
+      <button class="p" :disabled="!count" @click="place">{{t('pay')}} {{inr(tot.total)}}</button>
+    </div>
+  </div>
+  <div class="box" style="align-self:start"><b>Summary</b>
+    <div class="row m" v-for="i in items"><span>{{i.p.emoji}} {{i.p.name}} ×{{i.q}}</span><span>{{inr((i.p.price*i.q))}}</span></div>
+    <hr><div class="row"><span>Subtotal</span><span>{{inr(tot.sub)}}</span></div><div class="row"><span>GST 18%</span><span>{{inr(tot.tax)}}</span></div><div class="row"><span>Shipping</span><span>{{tot.ship?inr(tot.ship):'Free'}}</span></div><div class="row" v-if="tot.disc"><span>Coupon {{coupon}}</span><span>−{{inr(tot.disc)}}</span></div><div class="row" v-if="tot.cod"><span>COD fee</span><span>₹40</span></div></div>
+</div>
+</main>
+
+<!-- CART -->
+<div class="ov" v-if="cartOpen" @click.self="cartOpen=false"><div class="dr">
+  <div class="row"><h3>{{t('cart')}}</h3><button @click="cartOpen=false">✕</button></div>
+  <div class="box row"><div class="ring" :style="{'--p':Math.min(100,tot.sub/budget*100),'--c':tot.sub>budget?'#e5484d':'var(--ok)'}"><i>{{Math.round(tot.sub/budget*100)}}%</i></div>
+    <div style="flex:1"><b>Budget buddy</b><div class="m">Set your limit</div><input type="number" min="10" v-model.number="budget"></div></div>
+  <p v-if="!items.length" class="m">Cart is empty.</p>
+  <div class="ci" v-for="i in items" :key="i.p.id"><span style="font-size:30px">{{i.p.emoji}}</span><div style="flex:1"><b>{{i.p.name}}</b><div class="m">{{inr(i.p.price)}}</div></div>
+    <div class="qty"><button @click="setQ(i.p.id,i.q-1)">−</button>{{i.q}}<button @click="setQ(i.p.id,i.q+1)">+</button></div></div>
+  <div v-if="items.length"><div class="row"><span>Subtotal</span><span>{{inr(tot.sub)}}</span></div><div class="row m"><span>GST (18%)</span><span>{{inr(tot.tax)}}</span></div>
+    <div class="row m"><span>Shipping</span><span>{{tot.ship?inr(tot.ship):'Free over ₹999'}}</span></div>
+    <div class="row" style="margin:6px 0"><input v-model="cpn" placeholder="Coupon (DIWALI10)" style="width:62%"><button @click="applyCpn">Apply</button></div><div class="row m" v-if="tot.disc"><span>Coupon {{coupon}}</span><span>−{{inr(tot.disc)}}</span></div>
+    <div class="row pr" style="margin:8px 0"><span>Total</span><span>{{inr(tot.total)}}</span></div>
+    <p class="err" v-if="tot.sub>budget">Over your budget by {{inr((tot.sub-budget))}}</p>
+    <button class="p" style="width:100%" @click="toCheckout">Checkout</button></div>
+</div></div>
+
+<!-- PRODUCT MODAL -->
+<div class="ov c" v-if="cur" @click.self="cur=null"><div class="md">
+  <div class="row"><h2 style="margin:0">{{cur.name}}</h2><button @click="cur=null">✕</button></div>
+  <div class="big" :style="{background:bg(cur,view)}">{{cur.emoji}}</div>
+  <div class="gal"><div v-for="v in 3" :class="{on:view===v-1}" :style="{background:bg(cur,v-1)}" @click="view=v-1">{{cur.emoji}}</div></div>
+  <p>{{cur.desc}}</p><p class="m">🧵 {{cur.cr}} · 📍 {{cur.o}}</p><div class="row"><input v-model="pin" maxlength="6" placeholder="Delivery pincode" inputmode="numeric"><button @click="chkPin">{{t('check')}}</button></div><p class="m" v-if="eta">{{eta}}</p><div class="row"><span class="pr">{{inr(cur.price)}}</span><span><span class="star">★</span> {{rating(cur).toFixed(1)}}</span><button class="p" @click="add(cur.id)">Add to cart</button></div>
+  <h4>Reviews</h4>
+  <div v-for="r in reviews[cur.id]" class="m" style="margin-bottom:6px"><span class="star">{{'★'.repeat(r.s)}}</span> {{r.t}} <i>— {{r.u}}</i></div>
+  <div class="row"><select v-model.number="nr.s" style="width:90px"><option v-for="n in [5,4,3,2,1]" :value="n">{{n}}★</option></select><input v-model="nr.t" placeholder="Write a review…"><button @click="addRev">Post</button></div>
+</div></div>
+
+<!-- COMPARE -->
+<div class="cmp" v-if="cmp.length&&!showCmp"><b>Compare ({{cmp.length}}/3)</b><span class="m" style="flex:1">{{cmpItems.map(p=>p.emoji).join(' ')}}</span><button class="p" :disabled="cmp.length<2" @click="showCmp=true">Compare</button><button @click="cmp=[]">Clear</button></div>
+<div class="ov c" v-if="showCmp" @click.self="showCmp=false"><div class="md"><div class="row"><h3>Compare</h3><button @click="showCmp=false">✕</button></div>
+  <div class="tw"><table><tr><th></th><th v-for="p in cmpItems">{{p.emoji}} {{p.name}}</th></tr>
+  <tr><td>Price</td><td v-for="p in cmpItems" :style="{color:p.price===Math.min(...cmpItems.map(x=>x.price))?'var(--ok)':''}">{{inr(p.price)}}</td></tr>
+  <tr><td>Rating</td><td v-for="p in cmpItems">{{rating(p).toFixed(1)}}★</td></tr>
+  <tr><td>Category</td><td v-for="p in cmpItems">{{p.cat}}</td></tr>
+  <tr><td>Occasion</td><td v-for="p in cmpItems">{{p.vibe}}</td></tr><tr><td>Origin</td><td v-for="p in cmpItems">{{p.o}}</td></tr></table></div></div></div>
+
+<div class="toast" v-if="toast">{{toast}}</div>
+</div>
+<script>
+const {createApp,ref,reactive,computed,watch,onMounted}=Vue;
+const P=[["Kanchipuram Silk Saree","Fashion",8499,4.8,95,"🥻","Wedding","Pure mulberry silk with a zari border.","Kanchipuram, TN","Handloom",6],
+["Chanderi Kurta Set","Fashion",1799,4.4,80,"👘","Everyday","Featherlight silk-cotton weave.","Chanderi, MP","Handloom",4],
+["Pochampally Ikat Shirt","Fashion",1299,4.3,60,"👕","Everyday","Tie-dyed ikat in breathable cotton.","Pochampally, Telangana","Ikat",5],
+["Kolhapuri Chappals","Fashion",899,4.5,85,"🩴","Everyday","Veg-tanned leather, hand-stitched.","Kolhapur, Maharashtra","Leatherwork",4],
+["Kashmiri Pashmina Shawl","Fashion",3999,4.7,70,"🧣","Gifting","Hand-spun, hand-woven fine wool.","Srinagar, J&K","Pashmina",1],
+["Silver Jhumkas","Fashion",1199,4.6,88,"💎","Wedding","Oxidised silver with temple motifs.","Jaipur, Rajasthan","Metalwork",3],
+["Brass Diya Set","Home",649,4.6,90,"🪔","Festive","Set of 6 hand-cast brass diyas.","Moradabad, UP","Brassware",2],
+["Channapatna Toy Set","Home",599,4.5,65,"🧸","Gifting","Lac-turned wooden toys, safe dyes.","Channapatna, Karnataka","Wood craft",5],
+["Madhubani Painting","Art",2499,4.7,55,"🎨","Gifting","Natural-pigment folk art on paper.","Madhubani, Bihar","Folk art",8],
+["Terracotta Planter","Home",449,4.1,40,"🪴","Everyday","Sun-baked clay, naturally cooling.","Bankura, West Bengal","Pottery",7],
+["Copper Water Bottle","Home",549,4.4,78,"🏺","Everyday","Pure copper for Ayurvedic water.","Jodhpur, Rajasthan","Coppersmith",3],
+["Masala Dabba","Home",1299,4.6,82,"🥘","Festive","Stainless 7-spice box with spoon.","Pune, Maharashtra","Utensils",4],
+["Darjeeling Tea Box","Food",499,4.6,92,"🍵","Gifting","First-flush loose leaf, 250g.","Darjeeling, West Bengal","Tea estate",7],
+["Mithai Gift Box","Food",799,4.5,87,"🍬","Festive","Kaju katli, soan papdi and ladoo.","Mathura, UP","Halwai",2],
+["Filter Coffee Kit","Food",699,4.7,76,"☕","Everyday","Brass filter plus Coorg blend.","Coorg, Karnataka","Plantation",5],
+["Incense & Dhoop Set","Home",249,4.2,58,"🕉️","Festive","Hand-rolled sandalwood agarbatti.","Mysuru, Karnataka","Hand-rolled",5]]
+.map((a,i)=>({id:i+1,name:a[0],cat:a[1],price:a[2],rate:a[3],pop:a[4],emoji:a[5],vibe:a[6],desc:a[7],o:a[8],cr:a[9],z:a[10],hue:(i*47+10)%360}));
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const app=createApp({setup(){
+ const route=ref('/'),q=ref(''),sf=ref(false),hi=ref(0),cat=ref('All'),maxP=ref(10000),minR=ref(0),sort=ref('pop'),vibe=ref(''),wonly=ref(false);
+ const cart=reactive(ld('cart',{})),wish=ref(ld('wish',[])),cmp=ref([]),user=ref(ld('user',null)),orders=ref(ld('orders',[])),budget=ref(ld('budget',5000));
+ const reviews=reactive(ld('rev',Object.fromEntries(P.map(p=>[p.id,[{s:5,t:'Love it!',u:'Sam'},{s:Math.round(p.rate),t:'Solid value.',u:'Priya'}]]))));
+ const cartOpen=ref(false),cur=ref(null),view=ref(0),showCmp=ref(false),toast=ref(''),done=ref(0);
+ const nr=reactive({s:5,t:''}),lf=reactive({name:'',email:'',pw:''}),le=reactive({}),ck=reactive({name:'',addr:'',card:'',exp:'',cvv:'',pin:'',upi:''}),ce=reactive({});
+ const cats=['All',...new Set(P.map(p=>p.cat))],vibes=['Festive','Wedding','Everyday','Gifting'];
+ const lang=ref(ld('lang','en')),pay=ref('upi'),cpn=ref(''),coupon=ref(''),pin=ref(''),eta=ref(''),now=ref(Date.now());setInterval(()=>now.value=Date.now(),1000);
+ const D={en:{brand:'Desi Bazaar',signin:'Sign in',sale:'Diwali Dhamaka ends in',spin:'Lucky spin',cat:'Category',maxp:'Max price',vibe:'Shop by occasion',add:'Add',cart:'Your cart',check:'Check',pay:'Pay',search:'Search sarees, diyas, tea…'},
+ hi:{brand:'देसी बाज़ार',signin:'साइन इन',sale:'दिवाली धमाका खत्म होगा',spin:'लकी स्पिन',cat:'श्रेणी',maxp:'अधिकतम कीमत',vibe:'अवसर के अनुसार',add:'जोड़ें',cart:'आपकी टोकरी',check:'जाँचें',pay:'भुगतान',search:'साड़ी, दीये, चाय खोजें…'},
+ te:{brand:'దేశీ బజార్',signin:'సైన్ ఇన్',sale:'దీపావళి ధమాకా ముగిసేది',spin:'లక్కీ స్పిన్',cat:'వర్గం',maxp:'గరిష్ట ధర',vibe:'సందర్భం ప్రకారం',add:'జోడించు',cart:'మీ కార్ట్',check:'చూడండి',pay:'చెల్లించు',search:'చీరలు, దీపాలు, టీ వెతకండి…'}};
+ const t=k=>D[lang.value][k],inr=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:0}),CP={DIWALI10:10,SHUBH5:5,LAXMI15:15,DESI20:20};
+ const cd=computed(()=>{const s=Math.max(0,Math.floor((new Date('2026-11-08T00:00:00+05:30')-now.value)/1000)),p=n=>String(n).padStart(2,'0');return Math.floor(s/86400)+'d '+p(Math.floor(s%86400/3600))+'h '+p(Math.floor(s%3600/60))+'m '+p(s%60)+'s'});
+ const tm=(m)=>{toast.value=m;setTimeout(()=>toast.value='',1800)};
+ const rating=p=>{const r=reviews[p.id];return r.reduce((a,b)=>a+b.s,0)/r.length};
+ const list=computed(()=>{let l=P.filter(p=>(cat.value==='All'||p.cat===cat.value)&&p.price<=maxP.value&&rating(p)>=minR.value&&(!vibe.value||p.vibe===vibe.value)&&(!wonly.value||wish.value.includes(p.id))&&(!q.value||(p.name+p.cat+p.vibe).toLowerCase().includes(q.value.toLowerCase())));
+  const s=sort.value;return l.sort((a,b)=>s==='pa'?a.price-b.price:s==='pd'?b.price-a.price:s==='name'?a.name.localeCompare(b.name):s==='rate'?rating(b)-rating(a):b.pop-a.pop)});
+ const sugs=computed(()=>q.value?P.filter(p=>p.name.toLowerCase().includes(q.value.toLowerCase())).slice(0,5):[]);
+ const items=computed(()=>Object.entries(cart).map(([id,q])=>({p:P.find(p=>p.id==id),q})));
+ const count=computed(()=>items.value.reduce((a,i)=>a+i.q,0));
+ const tot=computed(()=>{const sub=items.value.reduce((a,i)=>a+i.p.price*i.q,0),disc=Math.round(sub*(CP[coupon.value]||0)/100),tax=Math.round((sub-disc)*.18),ship=sub>999||!sub?0:79,cod=pay.value==='cod'&&sub?40:0;return{sub,disc,tax,ship,cod,total:sub-disc+tax+ship+cod}});
+ const cmpItems=computed(()=>cmp.value.map(id=>P.find(p=>p.id===id)));
+ watch(cart,v=>sv('cart',v),{deep:true});watch(wish,v=>sv('wish',v),{deep:true});watch(lang,v=>sv('lang',v));watch(budget,v=>sv('budget',v));watch(q,()=>hi.value=0);
+ const go=r=>{if((r==='/checkout'||r==='/account')&&!user.value){route.value='/login';location.hash='/login';tm('Please sign in first');return}route.value=r;location.hash=r;scrollTo(0,0)};
+ addEventListener('hashchange',()=>{const r=location.hash.slice(1)||'/';if(r!==route.value)go(r)});
+ onMounted(()=>{const r=location.hash.slice(1);if(r)go(r)});
+ const bg=(p,v=0)=>`radial-gradient(circle,#ffffff40 0 2px,transparent 3px) 0 0/18px 18px,linear-gradient(${135+v*60}deg,hsl(${(p.hue+v*30)%360} 85% 65%),hsl(${(p.hue+50+v*30)%360} 80% 45%))`;
+ const add=id=>{cart[id]=Math.min(10,(cart[id]||0)+1);tm('Added to cart')};
+ const setQ=(id,n)=>{if(n<=0)delete cart[id];else if(n>10)tm('Max 10 per item');else cart[id]=n};
+ const tog=(a,id)=>{const i=a.value?a.value.indexOf(id):a.indexOf(id);const arr=a.value||a;i>-1?arr.splice(i,1):arr.push(id)};
+ const togCmp=id=>{const i=cmp.value.indexOf(id);if(i>-1)cmp.value.splice(i,1);else if(cmp.value.length<3)cmp.value.push(id);else tm('Compare up to 3')};
+ const pick=s=>{if(s){q.value=s.name;sf.value=false}};
+ const open=p=>{cur.value=p;view.value=0;eta.value='';pin.value=''};
+ const addRev=()=>{if(!nr.t.trim())return;reviews[cur.value.id].unshift({s:nr.s,t:nr.t.trim(),u:user.value?user.value.name:'Guest'});nr.t='';sv('rev',reviews);tm('Review posted')};
+ const login=()=>{le.email=/^\S+@\S+\.\S+$/.test(lf.email)?'':'Enter a valid email';le.pw=lf.pw.length>=6?'':'At least 6 characters';if(le.email||le.pw)return;user.value={name:lf.name||lf.email.split('@')[0],email:lf.email};sv('user',user.value);tm('Signed in');go(count.value?'/checkout':'/')};
+ const logout=()=>{user.value=null;sv('user',null);go('/')};
+ const toCheckout=()=>{cartOpen.value=false;go('/checkout')};
+ const place=()=>{const c=ck.card.replace(/\s/g,'');ce.name=ck.name.trim()?'':'Required';ce.addr=ck.addr.trim().length>5?'':'Enter full address';ce.card=pay.value==='card'&&!/^\d{16}$/.test(c)?'16 digits required':'';ce.upi=pay.value==='upi'&&!/^[\w.-]{2,}@[a-z]{2,}$/i.test(ck.upi)?'Enter valid UPI ID (name@bank)':'';ce.pin=/^[1-8]\d{5}$/.test(ck.pin)?'':'Enter 6-digit pincode';
+  ce.exp=pay.value==='card'&&!/^(0[1-9]|1[0-2])\/\d{2}$/.test(ck.exp)?'Use MM/YY':'';ce.cvv=pay.value==='card'&&!/^\d{3,4}$/.test(ck.cvv)?'3–4 digits':'';if(Object.values(ce).some(x=>x))return;
+  const id=1000+orders.value.length+1;orders.value.unshift({id,date:new Date().toLocaleDateString(),items:count.value,total:tot.value.total});sv('orders',orders.value);Object.keys(cart).forEach(k=>delete cart[k]);coupon.value='';done.value=id};
+ const applyCpn=()=>{const c=cpn.value.trim().toUpperCase();if(CP[c]){coupon.value=c;tm(c+' applied: '+CP[c]+'% off')}else tm('Invalid coupon')};
+ const spin=()=>{const k=Object.keys(CP)[Math.floor(Math.random()*4)];cpn.value=k;coupon.value=k;tm('🪔 You won '+k+': '+CP[k]+'% off!')};
+ const chkPin=()=>{if(!/^[1-8]\d{5}$/.test(pin.value)){eta.value='Enter a valid 6-digit pincode';return}const z=+pin.value[0],d=z===cur.value.z?2:(z===1||cur.value.z===1)?6:4;eta.value='🚚 Delivery in '+d+'–'+(d+2)+' days · Cash on Delivery available ✓'};
+ const toggleTheme=()=>{const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'};
+ return{route,q,sf,hi,cat,maxP,minR,sort,vibe,wonly,cart,wish,cmp,user,orders,budget,reviews,cartOpen,cur,view,showCmp,toast,done,nr,lf,le,ck,ce,cats,vibes,rating,list,sugs,items,count,tot,cmpItems,go,bg,add,setQ,tog,togCmp,pick,open,addRev,login,logout,toCheckout,place,toggleTheme,setTimeout,lang,pay,cpn,coupon,pin,eta,t,inr,cd,applyCpn,spin,chkPin}
+}});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'80px'});
+app.directive('lazy',{mounted:el=>io.observe(el)});
+app.mount('#app');
+</script></body></html>
